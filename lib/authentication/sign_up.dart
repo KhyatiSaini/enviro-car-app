@@ -6,8 +6,8 @@ import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
+import 'package:toast/toast.dart';
 
 class SignUp extends StatelessWidget {
   static String routeName = '/sign_up';
@@ -661,15 +661,12 @@ class _SignUpPageState extends State<SignUpPage> {
       print(response.body);
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        // Fluttertoast.showToast(
-        //     msg: "Please verify your mail! A verification link has been sent to your email",
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     gravity: ToastGravity.BOTTOM,
-        //     timeInSecForIosWeb: 1,
-        //     backgroundColor: Colors.blue,
-        //     textColor: Colors.white,
-        //     fontSize: 16.0
-        // );
+        Toast.show(
+            "Please verify your mail! A verification link has been sent to your email",
+            context,
+            duration: Toast.LENGTH_SHORT,
+            gravity: Toast.BOTTOM,
+        );
       }
 
     } catch (e) {

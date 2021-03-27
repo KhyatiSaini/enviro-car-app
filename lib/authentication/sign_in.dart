@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:envirocar/authentication/sign_up.dart';
+import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:toast/toast.dart';
 
 class SignIn extends StatelessWidget {
   static String routeName = '/sign_in';
@@ -281,7 +286,7 @@ class _SignInPageState extends State<SignInPage> {
                                 if (_key.currentState.validate()) {
                                   print('Username $_userName');
                                   print('Token $_password');
-
+                                  login();
                                 }
                               },
                               child: Text('Login',
@@ -333,5 +338,45 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  Future login() async {
+    try {
+      final String getUrl = baseUrl + "users/" + _userName;
+      print(getUrl);
+      Response response = await get(
+        getUrl,
+        headers: <String, String>{
+          "X-User": _userName,
+          "X-token": _password
+        },
+      );
+
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 403) {
+        Map res = jsonDecode(response.body);
+        print(res["message"]);
+        Toast.show(
+          res["message"],
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+      }
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        Toast.show(
+            "Authorized user",
+            context,
+            duration: Toast.LENGTH_SHORT,
+            gravity: Toast.BOTTOM,
+        );
+      }
+
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
