@@ -1,0 +1,1 @@
+const String baseUrl = 'https://envirocar.org/api/stable/';
