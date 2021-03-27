@@ -5,7 +5,7 @@
 EnviroCar is a citizen science community that collects, shares, and analyzes floating car data for traffic management and the environment. It analyzes the open data and estimates the track count, average speed, relative speed, carbon dioxide emission, fuel consumption, and hotspot analysis. EnviroCar app provides features like:
 
 - Record tracks, explore recorded tracks, and upload tracks as open data for analysis.
-- Sharing data i.e. uploading data as open data for analysis that estimates use it to estimate CO2emission, track count, average speed, relative speed, hotspot analysis.
+- Sharing data i.e. uploading data as open data for analysis that estimates use it to estimate carbon dioxide emission, track count, average speed, relative speed, hotspot analysis.
 - Provides real-time data about the track, the distance covered, and duration.
 
 ## Authentication Section
