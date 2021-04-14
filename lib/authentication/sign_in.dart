@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:envirocar/authentication/sign_up.dart';
+import 'package:envirocar/screens/home_screen.dart';
 import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -373,6 +374,7 @@ class _SignInPageState extends State<SignInPage> {
             duration: Toast.LENGTH_SHORT,
             gravity: Toast.BOTTOM,
         );
+        Navigator.pushNamed(context, HomeScreen.routeName);
       }
 
     } catch (e) {

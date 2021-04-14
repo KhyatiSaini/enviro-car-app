@@ -669,8 +669,17 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       }
 
-    } catch (e) {
+      if (response.statusCode == 409) {
+        Toast.show(
+          "Sign up unsuccessful! Username already exists",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+      }
 
+    } catch (e) {
+      print(e.toString());
     }
   }
 
