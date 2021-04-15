@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:envirocar/authentication/sign_up.dart';
+import 'package:envirocar/providers/user_provider.dart';
 import 'package:envirocar/screens/home_screen.dart';
 import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class SignIn extends StatelessWidget {
@@ -373,6 +375,17 @@ class _SignInPageState extends State<SignInPage> {
             context,
             duration: Toast.LENGTH_SHORT,
             gravity: Toast.BOTTOM,
+        );
+
+        final provider = Provider.of<UserProvider>(context, listen: false);
+        final userData = jsonDecode(response.body);
+        provider.assignUser(
+            userData['name'],
+            userData['mail'],
+            userData['created'],
+            userData['modified'],
+            userData['acceptedTermsOfUseVersion'],
+            userData['acceptedPrivacyStatementVersion']
         );
         Navigator.pushNamed(context, HomeScreen.routeName);
       }
