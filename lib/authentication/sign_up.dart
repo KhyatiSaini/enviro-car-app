@@ -641,7 +641,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future register() async {
     try {
-      final String postUrl = baseUrl + "users";
+      final Uri postUrl = Uri.parse(baseUrl + "users");
       print(postUrl);
       Response response = await post(
         postUrl,

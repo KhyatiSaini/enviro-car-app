@@ -345,7 +345,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Future login() async {
     try {
-      final String getUrl = baseUrl + "users/" + _userName;
+      final Uri getUrl = Uri.parse(baseUrl + "users/" + _userName);
       print(getUrl);
       Response response = await get(
         getUrl,
