@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'Enviro Car',
         theme: ThemeData(
             primarySwatch: Colors.blue,
-            unselectedWidgetColor: Colors.grey[200]
+            unselectedWidgetColor: Colors.grey.shade400
         ),
         home: HomeScreen(),
         routes: routes,

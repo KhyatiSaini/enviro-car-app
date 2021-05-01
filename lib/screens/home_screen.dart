@@ -1,3 +1,4 @@
+import 'package:envirocar/screens/adapter_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     gpsBg = false;
     carBg = false;
     determineGpsStatus();
+    determineBluetoothConnectionStatus();
     super.initState();
   }
 
@@ -31,12 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     setState(() {
       gpsBg = serviceEnabled;
-      print('$serviceEnabled');
+      print('location status --> $serviceEnabled');
     });
   }
 
   Future determineBluetoothConnectionStatus() async {
-
+    bool bluetoothEnabled = await _flutterBlue.isOn;
+    setState(() {
+      bluetoothBg = bluetoothEnabled;
+      print('bluetooth status --> $bluetoothEnabled');
+    });
   }
 
   @override
@@ -147,7 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Container(
                                       child: FloatingActionButton(
                                         child: Icon(Icons.bluetooth_rounded),
-                                        backgroundColor: Colors.red.shade900,
+                                        backgroundColor: bluetoothBg ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                        onPressed: () {
+                                          // TODO: navigate to adapter selection screen
+                                          Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
+                                        },
                                       ),
                                     ),
                                     Container(
@@ -168,6 +178,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: FloatingActionButton(
                                         child: Icon(Icons.phone_android_outlined),
                                         backgroundColor: Colors.red.shade900,
+                                        onPressed: () {
+                                          // TODO: navigate to adapter selection screen
+                                          Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
+                                        },
                                       ),
                                     ),
                                     Container(
@@ -208,6 +222,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: FloatingActionButton(
                                         child: Icon(Icons.directions_car),
                                         backgroundColor: carBg ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                        onPressed: () {
+                                          // TODO: navigate to car selection screen
+                                        },
                                       ),
                                     ),
                                     Container(
