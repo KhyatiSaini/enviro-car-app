@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class SignIn extends StatelessWidget {
@@ -376,6 +377,10 @@ class _SignInPageState extends State<SignInPage> {
             duration: Toast.LENGTH_SHORT,
             gravity: Toast.BOTTOM,
         );
+
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        sharedPreferences.setString('X-User', _userName);
+        sharedPreferences.setString('X-token', _password);
 
         final provider = Provider.of<UserProvider>(context, listen: false);
         final userData = jsonDecode(response.body);

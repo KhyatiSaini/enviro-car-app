@@ -2,6 +2,8 @@ import 'package:envirocar/authentication/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 import 'adapter_selection_screen.dart';
 
@@ -16,17 +18,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   var devicesList = [];
+  bool userIsSignedIn;
+  String _username;
 
   @override
   void initState() {
     _startTrackButtonDisabled = true;
     bluetoothBg = false;
+    userIsSignedIn = false;
     obdBg = false;
     gpsBg = false;
     carBg = false;
+    _username = '';
     determineGpsStatus();
     determineBluetoothConnectionStatus();
     // determineBluetoothState();
+    isLoggedIn();
     super.initState();
   }
 
@@ -52,6 +59,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  Future isLoggedIn() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString('X-User') != null) {
+      setState(() {
+        userIsSignedIn = true;
+        _username = sharedPreferences.get('X-User');
+        print(_username);
+      });
+    }
+    else {
+      print('user not logged in');
+    }
+  }
+
+  Future logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('X-User');
+    sharedPreferences.remove('X-token');
+    Toast.show(
+      "Signed out successfully",
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+    );
+    isLoggedIn();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,17 +100,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: userIsSignedIn ? 5 : 2,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.lightBlue.shade800,
                       child: Stack(
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.only(top: 10),
-                            alignment: Alignment.topCenter,
-                            child: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
+                          Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(top: 10),
+                                alignment: Alignment.topCenter,
+                                child: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
+                              ),
+                              if (userIsSignedIn)
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 20),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.black,
+                                        radius: 32,
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.lightBlue.shade800,
+                                          radius: 30,
+                                          child: Icon(
+                                            Icons.person_sharp,
+                                            color: Colors.black,
+                                            size: 60,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(top: 7),
+                                        child: Text(
+                                          _username,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
                           ),
                           Container(
                             alignment: Alignment.topRight,
@@ -89,10 +160,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 color: Colors.white,
                               ),
                               onSelected: (route) {
-                                Navigator.pushNamed(context, route);
+                                if (userIsSignedIn) {
+                                  logout();
+                                }
+                                else {
+                                  Navigator.pushNamed(context, route);
+                                }
                               },
                               itemBuilder: (_) => [
-                                PopupMenuItem(child: Text('Login/Register'), value: SignIn.routeName),
+                                PopupMenuItem(
+                                  child: Text(
+                                    userIsSignedIn ? 'Logout' : 'Login/Register'
+                                  ),
+                                  value: SignIn.routeName),
                               ],
                             ),
                           ),
@@ -101,7 +181,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   Expanded(
-                    flex: 10,
+                    flex: userIsSignedIn ? 12 : 10,
                     child: Container(
                       child: Column(
                         children: [
@@ -392,7 +472,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Container(
                 height: 80,
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 80),
+                margin: userIsSignedIn ? EdgeInsets.symmetric(horizontal: 40, vertical: 170) :EdgeInsets.symmetric(horizontal: 40, vertical: 80),
                 padding: EdgeInsets.symmetric(vertical: 17, horizontal: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
