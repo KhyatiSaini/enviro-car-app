@@ -1,17 +1,36 @@
 import 'dart:async';
+import 'package:envirocar/services/bluetooth_status_checker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
-class BluetoothStatusProvider with ChangeNotifier {
-  FlutterBlue _flutterBlue = FlutterBlue.instance;
-  bool bluetoothON;
+class BluetoothStatusProvider extends ChangeNotifier {
+  // ignore: close_sinks
+  StreamController<BluetoothConnectionStatus> statusStreamController = StreamController<BluetoothConnectionStatus>();
 
-  Future determineBluetoothConnectionStatus() async {
-    bool bluetoothEnabled = await _flutterBlue.isOn;
-    bluetoothON = bluetoothEnabled;
-    print('bluetooth status --> $bluetoothON');
-    notifyListeners();
+  BluetoothStatusProvider() {
+    BluetoothStatusChecker().onStatusChange.listen((bluetoothStatus) {
+      statusStreamController.add(bluetoothStatus);
+    });
   }
-
-  bool get bluetoothStatus => bluetoothON;
+  // FlutterBlue _flutterBlue = FlutterBlue.instance;
+  // bool bluetoothON;
+  //
+  // BluetoothStatusProvider() {
+  //   bluetoothON = false;
+  //   getBluetoothStatus();
+  // }
+  //
+  // Future determineBluetoothConnectionStatus() async {
+  //   bool bluetoothEnabled = await _flutterBlue.isOn;
+  //   bluetoothON = bluetoothEnabled;
+  //   print('bluetooth status (provider) -->  $bluetoothON');
+  //   notifyListeners();
+  // }
+  //
+  // Future getBluetoothStatus() async {
+  //   bool bluetoothEnabled = await _flutterBlue.isOn;
+  //   bluetoothON = bluetoothEnabled;
+  //   notifyListeners();
+  // }
+  //
+  // get bluetoothStatus => bluetoothON;
 }

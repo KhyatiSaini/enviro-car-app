@@ -2,7 +2,7 @@ import 'package:envirocar/models/users.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class UserProvider with ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   User user;
 
   Future assignUser(
