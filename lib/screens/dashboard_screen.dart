@@ -1,9 +1,11 @@
 import 'package:envirocar/authentication/sign_in.dart';
+import 'package:envirocar/providers/bluetooth_status_provider.dart';
+import 'package:envirocar/providers/gps_status_provider.dart';
 import 'package:envirocar/services/bluetooth_status_checker.dart';
 import 'package:envirocar/services/gps_status_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'adapter_selection_screen.dart';
@@ -15,7 +17,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   bool _startTrackButtonDisabled;
-  bool bluetoothEnabled, obdSelected, gpsEnabled, carEnabled;
+  bool obdSelected, carEnabled;
   final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   var devicesList = [];
@@ -25,46 +27,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     _startTrackButtonDisabled = true;
-    // bluetoothEnabled = false;
     userIsSignedIn = false;
     obdSelected = false;
-    // gpsEnabled = false;
     carEnabled = false;
     _username = '';
-    // determineGpsStatus();
-    // determineBluetoothConnectionStatus();
     isLoggedIn();
     super.initState();
-  }
-
-  Future determineGpsStatus() async {
-    GPSStatusChecker().onStatusChange.listen((status) {
-      switch(status) {
-        case gpsStatus.enabled: setState(() {
-          gpsEnabled = true;
-        });
-        break;
-        case gpsStatus.disabled: setState(() {
-          gpsEnabled = false;
-        });
-        break;
-      }
-    });
-  }
-
-  Future determineBluetoothConnectionStatus() async {
-    BluetoothStatusChecker().onStatusChange.listen((bluetoothStatus) {
-      switch(bluetoothStatus) {
-        case BluetoothConnectionStatus.on: setState(() {
-          bluetoothEnabled = true;
-        });
-        break;
-        case BluetoothConnectionStatus.off: setState(() {
-          bluetoothEnabled = false;
-        });
-        break;
-      }
-    });
   }
 
   Future isLoggedIn() async {
@@ -223,21 +191,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      child: StreamBuilder<BluetoothConnectionStatus>(
-                                        stream: BluetoothStatusChecker().onStatusChange,
-                                        builder: (context, snapshot) {
-                                          return FloatingActionButton(
-                                            heroTag: 'tag1',
-                                            child: Icon(Icons.bluetooth_rounded),
-                                            backgroundColor: snapshot.data == BluetoothConnectionStatus.on ? Colors.lightBlue.shade900 : Colors.red.shade900,
-                                            onPressed: () {
-                                              // TODO: navigate to adapter selection screen
-                                              print(bluetoothEnabled);
-                                              Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
-                                            },
-                                          );
-                                        }
+                                    Consumer<BluetoothStatusProvider>(
+                                      builder: (context, bluetoothStatusProvider, child) => Container(
+                                        child: FloatingActionButton(
+                                          heroTag: 'tag1',
+                                          child: Icon(Icons.bluetooth_rounded),
+                                          backgroundColor: bluetoothStatusProvider.bluetoothStatus == BluetoothConnectionStatus.on ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                          onPressed: () {
+                                            Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
+                                          },
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -260,7 +223,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         child: Icon(Icons.phone_android_outlined),
                                         backgroundColor: Colors.red.shade900,
                                         onPressed: () {
-                                          // TODO: navigate to adapter selection screen
                                           Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
                                         },
                                       ),
@@ -279,16 +241,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      child: StreamBuilder<gpsStatus>(
-                                        stream: GPSStatusChecker().onStatusChange,
-                                        builder: (context, snapshot) {
-                                          return FloatingActionButton(
-                                            heroTag: 'tag3',
-                                            child: Icon(Icons.my_location),
-                                            backgroundColor: snapshot.data == gpsStatus.enabled ? Colors.lightBlue.shade900 : Colors.red.shade900,
-                                          );
-                                        }
+                                    Consumer<GpsStatusProvider>(
+                                      builder: (context, gpsStatusProvider, child) => Container(
+                                        child: FloatingActionButton(
+                                          heroTag: 'tag3',
+                                          child: Icon(Icons.my_location),
+                                          backgroundColor: gpsStatusProvider.gpsStatus == GpsStatus.enabled ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                        ),
                                       ),
                                     ),
                                     Container(

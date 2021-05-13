@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 
-enum gpsStatus {
+enum GpsStatus {
   enabled,
   disabled
 }
 
-class GPSStatusChecker {
+class GpsStatusChecker {
 
   static const Duration DEFAULT_INTERVAL = Duration(seconds: 5);
 
-  factory GPSStatusChecker() => _gpsStatusChecker;
-  GPSStatusChecker._() {
+  factory GpsStatusChecker() => _gpsStatusChecker;
+  GpsStatusChecker._() {
     _statusController.onListen = () {
       _sendStatusUpdates();
     };
@@ -22,11 +22,11 @@ class GPSStatusChecker {
     };
   }
 
-  static final GPSStatusChecker _gpsStatusChecker = GPSStatusChecker._();
+  static final GpsStatusChecker _gpsStatusChecker = GpsStatusChecker._();
 
-  Future<gpsStatus> get locationIsEnabled async {
+  Future<GpsStatus> get locationIsEnabled async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    return serviceEnabled ? gpsStatus.enabled : gpsStatus.disabled;
+    return serviceEnabled ? GpsStatus.enabled : GpsStatus.disabled;
   }
 
   Duration checkInterval = DEFAULT_INTERVAL;
@@ -51,13 +51,13 @@ class GPSStatusChecker {
 
   }
 
-  gpsStatus _lastStatus;
+  GpsStatus _lastStatus;
   Timer _timer;
 
   // ignore: close_sinks
-  StreamController<gpsStatus> _statusController = StreamController.broadcast();
+  StreamController<GpsStatus> _statusController = StreamController.broadcast();
 
-  Stream<gpsStatus> get onStatusChange => _statusController.stream;
+  Stream<GpsStatus> get onStatusChange => _statusController.stream;
 
   bool get hasListener => _statusController.hasListener;
 
