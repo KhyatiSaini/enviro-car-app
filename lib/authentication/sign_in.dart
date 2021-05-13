@@ -1,14 +1,11 @@
 import 'dart:convert';
-
 import 'package:envirocar/authentication/sign_up.dart';
 import 'package:envirocar/providers/user_provider.dart';
-import 'package:envirocar/screens/home_screen.dart';
 import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class SignIn extends StatelessWidget {
@@ -371,18 +368,10 @@ class _SignInPageState extends State<SignInPage> {
       }
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        Toast.show(
-            "Authorized user",
-            context,
-            duration: Toast.LENGTH_SHORT,
-            gravity: Toast.BOTTOM,
-        );
-
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('X-User', _userName);
-        sharedPreferences.setString('X-token', _password);
 
         final provider = Provider.of<UserProvider>(context, listen: false);
+        provider.signIn(_userName, _password, context);
+
         final userData = jsonDecode(response.body);
         provider.assignUser(
             userData['name'],
@@ -392,9 +381,8 @@ class _SignInPageState extends State<SignInPage> {
             userData['acceptedTermsOfUseVersion'],
             userData['acceptedPrivacyStatementVersion']
         );
-        Navigator.pushNamed(context, HomeScreen.routeName);
-      }
 
+      }
     } catch (e) {
       print(e.toString());
     }

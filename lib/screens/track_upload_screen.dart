@@ -1,4 +1,6 @@
+import 'package:envirocar/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TrackUploadScreen extends StatefulWidget {
   static String routeName = '/track_upload_screen';
@@ -9,81 +11,8 @@ class TrackUploadScreen extends StatefulWidget {
 
 class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTickerProviderStateMixin {
   final List<Widget> _children = [
-    Container(
-      height: double.infinity,
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            child: Icon(
-              Icons.map,
-              size: 150,
-              color: Colors.grey.shade400,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Text(
-              'no local tracks'.toUpperCase(),
-              style: TextStyle(
-                color: Colors.grey.shade400,
-                fontWeight: FontWeight.w600,
-                fontSize: 20
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-            child: Text(
-              'You have 0 local tracks',
-              style: TextStyle(
-                  color: Colors.grey.shade400,
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      height: double.infinity,
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: Icon(
-              Icons.lock,
-              size: 150,
-              color: Colors.grey.shade400,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Text(
-              'not logged in'.toUpperCase(),
-              style: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
-            child: Text(
-              'To access your remote tracks you have to log in first.',
-              style: TextStyle(
-                  color: Colors.grey.shade400,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    ),
+    LocalTracks(),
+    UploadedTracks(),
   ];
 
   int _selectedIndex = 0;
@@ -96,9 +25,16 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.lightBlue.shade800,
         centerTitle: true,
         title: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
@@ -142,7 +78,6 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
                     ),
                   ),
                   initialIndex: _selectedIndex,
-
                 ),
               ),
               SizedBox(height: 10),
@@ -155,6 +90,95 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LocalTracks extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            child: Icon(
+              Icons.map,
+              size: 150,
+              color: Colors.grey.shade400,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Text(
+              'no local tracks'.toUpperCase(),
+              style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+            child: Text(
+              'You have 0 local tracks',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UploadedTracks extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<UserProvider>(context);
+
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: Icon(
+              Icons.lock,
+              size: 150,
+              color: Colors.grey.shade400,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Text(
+              provider.userLoggedIn ? 'no tracks uploaded'.toUpperCase() : 'not logged in'.toUpperCase(),
+              style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
+            child: Text(
+              provider.userLoggedIn ? 'You have 0 uploaded tracks' : 'To access your remote tracks you have to log in first.',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,12 +1,18 @@
+import 'package:envirocar/providers/user_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OthersScreen extends StatelessWidget {
   static String routeName = '/others_screen';
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.lightBlue.shade800,
         centerTitle: true,
         title: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
@@ -96,6 +102,61 @@ class OthersScreen extends StatelessWidget {
                   ),
                   dense: true,
                 ),
+                Divider(),
+                if (provider.userLoggedIn)
+                ListTile(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Are you sure?'),
+                            content: Text('Do you want to logout?'),
+                            actions: [
+                              TextButton(
+                                child: Text(
+                                  'no'.toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colors.black54
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  'yes'.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.black54
+                                  ),
+                                ),
+                                onPressed: () {
+                                  provider.logout(context);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                    );
+                  },
+                  title: Text(
+                    'Logout',
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.black,
+                    size: 30,
+                  ),
+                  dense: true,
+                ),
+                if (provider.userLoggedIn)
                 Divider(),
                 ListTile(
                   title: Text(
