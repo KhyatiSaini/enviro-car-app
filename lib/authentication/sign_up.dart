@@ -615,7 +615,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           Container(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, SignIn.routeName);
+                                Navigator.pushReplacementNamed(context, SignIn.routeName);
                               },
                               child: Text(
                                 'Sign In here!',

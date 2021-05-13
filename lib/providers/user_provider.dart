@@ -49,7 +49,7 @@ class UserProvider extends ChangeNotifier {
     sharedPreferences.setString('X-token', password);
 
     AuthenticationStatusProvider().authenticationStatus();
-    Navigator.pushNamed(context, HomeScreen.routeName);
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 
   Future logout(BuildContext context) async {

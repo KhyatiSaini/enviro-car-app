@@ -176,7 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               child: Icon(Icons.bluetooth_rounded),
                                               backgroundColor: bluetoothStatusProvider.bluetoothStatus == BluetoothConnectionStatus.on ? CarioColors.carioColorPrimaryDark : CarioColors.carioWarningRed,
                                               onPressed: () {
-                                                Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
+                                                Navigator.pushReplacementNamed(context, AdapterSelectionScreen.routeName);
                                               },
                                             ),
                                           ),
@@ -201,7 +201,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             child: Icon(Icons.phone_android_outlined),
                                             backgroundColor: CarioColors.carioWarningRed,
                                             onPressed: () {
-                                              Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
+                                              Navigator.pushReplacementNamed(context, AdapterSelectionScreen.routeName);
                                             },
                                           ),
                                         ),
@@ -267,71 +267,76 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              Container(
-                                height: 60,
-                                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        spreadRadius: 0.5,
-                                        blurRadius: 0.5,
-                                        offset: Offset(0, 1)
-                                    ),
-                                  ],
-                                ),
+                              GestureDetector(
                                 child: Container(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        color: CarioColors.carioColorPrimaryDark,
-                                        child: Icon(
-                                          Icons.bluetooth_audio,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                'No OBD-II adapter selected',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                  'Click here to select one'
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Spacer(),
-                                      Spacer(),
-                                      Spacer(),
-                                      Container(
-                                        height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          color: CarioColors.carioColorPrimaryDark,
-                                        ),
+                                  height: 60,
+                                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          spreadRadius: 0.5,
+                                          blurRadius: 0.5,
+                                          offset: Offset(0, 1)
                                       ),
                                     ],
                                   ),
+                                  child: Container(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                          color: CarioColors.carioColorPrimaryDark,
+                                          child: Icon(
+                                            Icons.bluetooth_audio,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          color: Colors.white,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'No OBD-II adapter selected',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w500
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                    'Click here to select one'
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Spacer(),
+                                        Spacer(),
+                                        Spacer(),
+                                        Container(
+                                          height: 60,
+                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                          child: Icon(
+                                            Icons.arrow_forward,
+                                            color: CarioColors.carioColorPrimaryDark,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
+                                onTap: () {
+                                  Navigator.pushReplacementNamed(context, AdapterSelectionScreen.routeName);
+                                },
                               ),
                               Container(
                                 height: 60,
