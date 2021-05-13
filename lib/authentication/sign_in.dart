@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:envirocar/authentication/sign_up.dart';
 import 'package:envirocar/providers/user_provider.dart';
+import 'package:envirocar/theme/colors_cario.dart';
 import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +71,8 @@ class _SignInPageState extends State<SignInPage> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.blue[800].withOpacity(0.998),
-                      Colors.cyan.withOpacity(0.899),
+                      CarioColors.blueDarkCario,
+                      CarioColors.blueLightCario.withOpacity(0.8)
                     ]
                   ),
                 ),
@@ -171,7 +172,7 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                                 hintText: "Username",
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: CarioColors.whiteCarioTransparent,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                 ),
@@ -264,7 +265,7 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                                 hintText: "Password",
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: CarioColors.whiteCarioTransparent,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                 ),
@@ -282,17 +283,19 @@ class _SignInPageState extends State<SignInPage> {
                             height: 50,
                             child: MaterialButton(
                               elevation: 0,
-                              color: Colors.black54,
+                              color: CarioColors.carioColorPrimaryDark,
+                              highlightColor: CarioColors.pressedCario,
+                              splashColor: CarioColors.pressedCario,
                               onPressed: () {
                                 if (_key.currentState.validate()) {
-                                  print('Username $_userName');
-                                  print('Token $_password');
+                                  // print('Username $_userName');
+                                  // print('Token $_password');
                                   login();
                                 }
                               },
                               child: Text('Login',
                                   style: TextStyle(
-                                    color: Colors.grey[200],
+                                    color: CarioColors.whiteCario,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400),
                               ),
@@ -322,7 +325,7 @@ class _SignInPageState extends State<SignInPage> {
                                 'Register here!',
                                 style: TextStyle(
                                   fontSize: 22,
-                                  color: Colors.grey[200],
+                                  color: CarioColors.whiteCario,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

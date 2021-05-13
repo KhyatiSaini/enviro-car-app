@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:checkbox_formfield/checkbox_formfield.dart';
 import 'package:envirocar/authentication/sign_in.dart';
+import 'package:envirocar/theme/colors_cario.dart';
 import 'package:envirocar/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -95,8 +95,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [
-                        Colors.blue[800].withOpacity(0.998),
-                        Colors.cyan.withOpacity(0.899),
+                        CarioColors.blueDarkCario,
+                        CarioColors.blueLightCario.withOpacity(0.8),
                       ]
                   ),
                 ),
@@ -112,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Container(
                       child: Text('Sign Up',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: CarioColors.whiteCario,
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           letterSpacing: 1,
@@ -199,7 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 hintText: "Username",
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: CarioColors.whiteCarioTransparent,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                 ),
@@ -288,7 +288,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 hintText: "E-Mail",
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: CarioColors.whiteCarioTransparent,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                 ),
@@ -388,7 +388,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 hintText: "Password",
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: CarioColors.whiteCarioTransparent,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                 ),
@@ -486,13 +486,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 hintText: "Confirm Password",
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: CarioColors.whiteCarioTransparent,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                 ),
                               ),
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: CarioColors.whiteCario,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1,
                                   fontSize: 18),
@@ -525,7 +525,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               // TODO:
                                             },
                                         text: ' Terms and Conditions',
-                                        style: TextStyle(color: Colors.lightGreenAccent)
+                                        style: TextStyle(color: CarioColors.pressedCario)
                                       ),
                                     ]
                                 ),
@@ -562,7 +562,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               // TODO:
                                             },
                                           text: ' Privacy Statement',
-                                          style: TextStyle(color: Colors.lightGreenAccent)
+                                          style: TextStyle(color: CarioColors.pressedCario)
                                       ),
                                     ]
                                 ),
@@ -578,7 +578,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             height: 50,
                             child: MaterialButton(
                               elevation: 0,
-                              color: Colors.black54,
+                              color: CarioColors.carioColorPrimaryDark,
+                              highlightColor: CarioColors.pressedCario,
+                              splashColor: CarioColors.pressedCario,
                               onPressed: () {
                                 if (_key.currentState.validate()) {
                                   print('Username $_userName');
@@ -589,7 +591,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               },
                               child: Text('Submit',
                                 style: TextStyle(
-                                    color: Colors.grey[200],
+                                    color: CarioColors.whiteCario,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400),
                               ),
@@ -619,7 +621,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 'Sign In here!',
                                 style: TextStyle(
                                   fontSize: 22,
-                                  color: Colors.grey[200],
+                                  color: CarioColors.whiteCario,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

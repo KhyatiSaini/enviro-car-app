@@ -1,6 +1,7 @@
 import 'package:envirocar/screens/dashboard_screen.dart';
 import 'package:envirocar/screens/others_screen.dart';
 import 'package:envirocar/screens/track_upload_screen.dart';
+import 'package:envirocar/theme/colors_cario.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -66,11 +67,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             _currentIndex = index;
           });
         },
-        selectedItemColor: Colors.lightBlue.shade800,
+        selectedItemColor: CarioColors.carioColorPrimary,
         unselectedItemColor: Colors.grey,
-        selectedIconTheme: IconThemeData(color: Colors.lightBlue.shade800),
+        selectedIconTheme: IconThemeData(color: CarioColors.carioColorPrimary),
         unselectedIconTheme: IconThemeData(color: Colors.grey),
-        selectedLabelStyle: TextStyle(color: Colors.lightBlue.shade800),
+        selectedLabelStyle: TextStyle(color: CarioColors.carioColorPrimary),
         unselectedLabelStyle: TextStyle(color: Colors.grey),
         unselectedFontSize: 12,
         selectedFontSize: 12,

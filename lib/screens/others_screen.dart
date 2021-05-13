@@ -1,4 +1,5 @@
 import 'package:envirocar/providers/user_provider.dart';
+import 'package:envirocar/theme/colors_cario.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class OthersScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.lightBlue.shade800,
+        backgroundColor: CarioColors.carioColorPrimary,
         centerTitle: true,
         title: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
       ),
@@ -168,7 +169,7 @@ class OthersScreen extends StatelessWidget {
                   ),
                   leading: Icon(
                     Icons.power_settings_new,
-                    color: Colors.red,
+                    color: CarioColors.carioWarningRed,
                     size: 30,
                   ),
                   dense: true,

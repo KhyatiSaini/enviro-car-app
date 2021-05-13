@@ -4,6 +4,7 @@ import 'package:envirocar/providers/gps_status_provider.dart';
 import 'package:envirocar/providers/user_provider.dart';
 import 'package:envirocar/services/bluetooth_status_checker.dart';
 import 'package:envirocar/services/gps_status_checker.dart';
+import 'package:envirocar/theme/colors_cario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,7 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         flex: provider.userLoggedIn ? 5 : 2,
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          color: Colors.lightBlue.shade800,
+                          color: CarioColors.carioColorPrimary,
                           child: Stack(
                             children: [
                               Column(
@@ -148,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 margin: EdgeInsets.fromLTRB(60, 60, 60, 20),
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  color: Colors.lightBlue.shade900,
+                                  color: CarioColors.carioColorPrimaryDark,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
@@ -173,7 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             child: FloatingActionButton(
                                               heroTag: 'tag1',
                                               child: Icon(Icons.bluetooth_rounded),
-                                              backgroundColor: bluetoothStatusProvider.bluetoothStatus == BluetoothConnectionStatus.on ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                              backgroundColor: bluetoothStatusProvider.bluetoothStatus == BluetoothConnectionStatus.on ? CarioColors.carioColorPrimaryDark : CarioColors.carioWarningRed,
                                               onPressed: () {
                                                 Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
                                               },
@@ -198,7 +199,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           child: FloatingActionButton(
                                             heroTag: 'tag2',
                                             child: Icon(Icons.phone_android_outlined),
-                                            backgroundColor: Colors.red.shade900,
+                                            backgroundColor: CarioColors.carioWarningRed,
                                             onPressed: () {
                                               Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
                                             },
@@ -223,7 +224,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             child: FloatingActionButton(
                                               heroTag: 'tag3',
                                               child: Icon(Icons.my_location),
-                                              backgroundColor: gpsStatusProvider.gpsStatus == GpsStatus.enabled ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                              backgroundColor: gpsStatusProvider.gpsStatus == GpsStatus.enabled ? CarioColors.carioColorPrimaryDark : CarioColors.carioWarningRed,
                                             ),
                                           ),
                                         ),
@@ -245,7 +246,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           child: FloatingActionButton(
                                             heroTag: 'tag4',
                                             child: Icon(Icons.directions_car),
-                                            backgroundColor: carEnabled ? Colors.lightBlue.shade900 : Colors.red.shade900,
+                                            backgroundColor: carEnabled ? CarioColors.carioColorPrimaryDark : CarioColors.carioWarningRed,
                                             onPressed: () {
                                               // TODO: navigate to car selection screen
                                             },
@@ -287,7 +288,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       Container(
                                         height: 60,
                                         padding: EdgeInsets.symmetric(horizontal: 10),
-                                        color: Colors.lightBlue.shade900,
+                                        color: CarioColors.carioColorPrimaryDark,
                                         child: Icon(
                                           Icons.bluetooth_audio,
                                           color: Colors.white,
@@ -325,7 +326,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         padding: EdgeInsets.symmetric(horizontal: 10),
                                         child: Icon(
                                           Icons.arrow_forward,
-                                          color: Colors.lightBlue.shade900,
+                                          color: CarioColors.carioColorPrimaryDark,
                                         ),
                                       ),
                                     ],
@@ -353,7 +354,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       Container(
                                         height: 60,
                                         padding: EdgeInsets.symmetric(horizontal: 10),
-                                        color: Colors.lightBlue.shade900,
+                                        color: CarioColors.carioColorPrimaryDark,
                                         child: Icon(
                                           Icons.directions_car,
                                           color: Colors.white,
@@ -391,7 +392,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         padding: EdgeInsets.symmetric(horizontal: 10),
                                         child: Icon(
                                           Icons.arrow_forward,
-                                          color: Colors.lightBlue.shade900,
+                                          color: CarioColors.carioColorPrimaryDark,
                                         ),
                                       ),
                                     ],

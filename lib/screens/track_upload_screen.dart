@@ -1,4 +1,5 @@
 import 'package:envirocar/providers/user_provider.dart';
+import 'package:envirocar/theme/colors_cario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,7 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.lightBlue.shade800,
+        backgroundColor: CarioColors.carioColorPrimary,
         centerTitle: true,
         title: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
       ),
@@ -50,10 +51,10 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Colors.lightBlue.shade800,
+                    color: CarioColors.carioColorPrimary,
                     width: 2
                   ),
-                  color: Colors.white
+                  color: CarioColors.whiteCario
                 ),
                 child: DefaultTabController(
                   length: 2,
@@ -69,12 +70,12 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
                         _tabController.index = index;
                       },
                       indicator: BoxDecoration(
-                        color: Colors.lightBlue.shade800,
+                        color: CarioColors.carioColorPrimary,
                         borderRadius: BorderRadius.circular(6)
                       ),
                       indicatorSize: TabBarIndicatorSize.tab,
-                      labelStyle: TextStyle(color: Colors.white),
-                      unselectedLabelColor: Colors.lightBlue.shade800,
+                      labelStyle: TextStyle(color: CarioColors.whiteCario),
+                      unselectedLabelColor: CarioColors.carioColorPrimary,
                     ),
                   ),
                   initialIndex: _selectedIndex,
