@@ -2,6 +2,7 @@ import 'package:envirocar/authentication/sign_in.dart';
 import 'package:envirocar/providers/bluetooth_status_provider.dart';
 import 'package:envirocar/providers/gps_status_provider.dart';
 import 'package:envirocar/providers/user_provider.dart';
+import 'package:envirocar/screens/my_cars_screen.dart';
 import 'package:envirocar/services/bluetooth_status_checker.dart';
 import 'package:envirocar/services/gps_status_checker.dart';
 import 'package:envirocar/theme/colors_cario.dart';
@@ -77,14 +78,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       child: Column(
                                         children: [
                                           CircleAvatar(
-                                            backgroundColor: Colors.black,
+                                            backgroundColor: CarioColors.blueLightCario,
                                             radius: 32,
                                             child: CircleAvatar(
-                                              backgroundColor: Colors.lightBlue.shade800,
+                                              backgroundColor: CarioColors.carioColorPrimary,
                                               radius: 30,
                                               child: Icon(
                                                 Icons.person_sharp,
-                                                color: Colors.black,
+                                                color: CarioColors.blueLightCario,
                                                 size: 60,
                                               ),
                                             ),
@@ -248,7 +249,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             child: Icon(Icons.directions_car),
                                             backgroundColor: carEnabled ? CarioColors.carioColorPrimaryDark : CarioColors.carioWarningRed,
                                             onPressed: () {
-                                              // TODO: navigate to car selection screen
+                                              Navigator.pushNamed(context, MyCarsScreen.routeName);
                                             },
                                           ),
                                         ),
@@ -335,74 +336,79 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.pushReplacementNamed(context, AdapterSelectionScreen.routeName);
+                                  Navigator.pushNamed(context, AdapterSelectionScreen.routeName);
                                 },
                               ),
-                              Container(
-                                height: 60,
-                                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        spreadRadius: 0.5,
-                                        blurRadius: 0.5,
-                                        offset: Offset(0, 1)
-                                    ),
-                                  ],
-                                ),
+                              GestureDetector(
                                 child: Container(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        color: CarioColors.carioColorPrimaryDark,
-                                        child: Icon(
-                                          Icons.directions_car,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                'No car type selected',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                  'Click here to select one'
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Spacer(),
-                                      Spacer(),
-                                      Spacer(),
-                                      Container(
-                                        height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          color: CarioColors.carioColorPrimaryDark,
-                                        ),
+                                  height: 60,
+                                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          spreadRadius: 0.5,
+                                          blurRadius: 0.5,
+                                          offset: Offset(0, 1)
                                       ),
                                     ],
                                   ),
+                                  child: Container(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                          color: CarioColors.carioColorPrimaryDark,
+                                          child: Icon(
+                                            Icons.directions_car,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          color: Colors.white,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'No car type selected',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w500
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                    'Click here to select one'
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Spacer(),
+                                        Spacer(),
+                                        Spacer(),
+                                        Container(
+                                          height: 60,
+                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                          child: Icon(
+                                            Icons.arrow_forward,
+                                            color: CarioColors.carioColorPrimaryDark,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
+                                onTap: () {
+                                  Navigator.pushNamed(context, MyCarsScreen.routeName);
+                                },
                               ),
                               SizedBox(height: 20),
                               Container(
