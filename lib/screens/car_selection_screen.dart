@@ -1,6 +1,7 @@
 import 'package:envirocar/theme/colors_cario.dart';
 import 'package:envirocar/widgets/drop_down_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CarSelectionScreen extends StatefulWidget {
   static String routeName = '/car_selection_screen';
@@ -10,16 +11,37 @@ class CarSelectionScreen extends StatefulWidget {
 }
 
 class _CarSelectionScreenState extends State<CarSelectionScreen> {
-  String selectedValue = '';
-  List<String> items = [
-    'Android',
-    'iOS',
-    'Flutter',
-    'Node',
-    'Java',
-    'Python',
-    'PHP',
+
+  List<String> manufacturerList = [
+    'ALFA LANCIA (I)',
+    'ALFA ROMEO (I)',
+    'ALPINA',
+    'AUDI(H)',
+    'AUTO BIANCHI (I)',
+    'BARKAS-VEB',
+    'Buick'
   ];
+
+  List<String> modelList = [
+
+  ];
+
+  List<String> constructionYearList = [
+
+  ];
+
+  List<String> fuelTypeList = [
+    'Gasoline',
+    'Diesel',
+    'Gas',
+    'Hybrid',
+    'Electric'
+  ];
+
+  List<String> engineDisplacementList = [
+
+  ];
+
   final TextEditingController manufacturerController = TextEditingController();
   final TextEditingController modelController = TextEditingController();
   final TextEditingController constructionYearController = TextEditingController();
@@ -31,6 +53,90 @@ class _CarSelectionScreenState extends State<CarSelectionScreen> {
   final FocusNode constructionYearFocusNode = FocusNode();
   final FocusNode fuelTypeFocusNode = FocusNode();
   final FocusNode engineDisplacementFocusNode = FocusNode();
+
+  final _key = GlobalKey<FormState>();
+
+  String manufacturer = '', model = '', constructionYear = '', fuelType = '', engineDisplacement = '';
+  bool displayEngineDisplacement = true;
+
+  var manufacturerModel = {
+    'ALFA LANCIA (I)': [
+      'ALFA 164',
+      'ALFA 33 KOMBI'
+    ],
+    'ALFA ROMEO (I)': [
+      '1300 SPIDER JUNIOR'
+    ],
+    'ALPINA': [
+      'BMW ALPINA 33 BIT URB Carb',
+      'SBITURBO'
+    ],
+    'AUDI(H)': [
+      'AUDI TT'
+    ],
+    'AUTO BIANCHI (I)': [
+      'A 112 A1'
+    ],
+    'BARKAS-VEB': [
+      'B 1000 KM/1',
+      'B 1000 KM/2',
+      'B 1000 KM/VA',
+    ],
+    'Buick': [
+      'excelle'
+    ],
+  };
+
+  var constructionYearModel = {
+    'ALFA 164': [
+      '1990',
+    ],
+    'ALFA 33 KOMBI': [
+      '1988',
+      '2000',
+    ],
+    '1300 SPIDER JUNIOR': [
+      '1968',
+      '2000',
+      '2020',
+    ],
+    'BMW ALPINA 33 BIT URB Carb': [
+      '2010'
+    ],
+    'SBITURBO': [
+      '2017'
+    ],
+    'AUDI TT': [
+      '2008',
+    ],
+    'A 112 A1': [
+      '1975'
+    ],
+    'B 1000 KM/1': [
+      '1976',
+    ],
+    'B 1000 KM/2': [
+      '1976',
+    ],
+    'B 1000 KM/VA': [
+      '1976',
+    ],
+    'excelle': [
+      '2000'
+    ]
+  };
+
+  void toggleEngineDisplacement(String fuel) {
+    if (fuel == 'Electric') {
+      setState(() {
+        displayEngineDisplacement = false;
+      });
+    } else {
+      setState(() {
+        displayEngineDisplacement = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +168,14 @@ class _CarSelectionScreenState extends State<CarSelectionScreen> {
                             Container(
                               alignment: Alignment.topRight,
                               margin: EdgeInsets.only(top: 15, right: 15),
-                              child: Icon(
-                                Icons.check,
-                                color: CarioColors.whiteCario,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.check,
+                                  color: CarioColors.whiteCario,
+                                ),
+                                onPressed: () {
+                                  addCarDetails();
+                                },
                               )
                             ),
                             GestureDetector(
@@ -112,104 +223,132 @@ class _CarSelectionScreenState extends State<CarSelectionScreen> {
                               ),
                             ),
                             SizedBox(height: 20),
-                            DropDownField(
-                              onValueChanged: (value) {
-                                setState(() {
-                                  selectedValue = value;
-                                });
-                              },
-                              hintText: 'Manufacturer',
-                              labelText: 'Manufacturer',
-                              prefixIcon: Icon(
-                                Icons.apartment_sharp,
-                                size: 20,
-                                color: Colors.grey.shade700,
+                            Form(
+                              key: _key,
+                              child: Column(
+                                children: [
+                                  DropDownField(
+                                    onValueChanged: (value) {
+                                      setState(() {
+                                        manufacturer = value;
+                                        modelList = manufacturerModel[manufacturer];
+                                        modelController.text = '';
+                                        model = '';
+                                      });
+                                    },
+                                    hintText: 'Manufacturer',
+                                    labelText: 'Manufacturer',
+                                    prefixIcon: Icon(
+                                      Icons.apartment_sharp,
+                                      size: 20,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                    textEditingController: manufacturerController,
+                                    focusNode: manufacturerFocusNode,
+                                    items: manufacturerList,
+                                    setter: (value) {
+                                      setState(() {
+                                        manufacturer = value;
+                                        modelList = manufacturerModel[manufacturer];
+                                        modelController.text = '';
+                                        model = '';
+                                      });
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  DropDownField(
+                                    onValueChanged: (value) {
+                                      model = value;
+                                      constructionYearList = constructionYearModel[model];
+                                      constructionYearController.text = '';
+                                      constructionYear = '';
+                                    },
+                                    textEditingController: modelController,
+                                    focusNode: modelFocusNode,
+                                    hintText: 'Model',
+                                    labelText: 'Model',
+                                    prefixIcon: Icon(
+                                      Icons.directions_car,
+                                      size: 20,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                    items: modelList,
+                                    setter: (value) {
+                                      model = value;
+                                      constructionYearList = constructionYearModel[model];
+                                      constructionYearController.text = '';
+                                      constructionYear = '';
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  DropDownField(
+                                    onValueChanged: (value) {
+                                      constructionYear = value;
+                                    },
+                                    textEditingController: constructionYearController,
+                                    focusNode: constructionYearFocusNode,
+                                    hintText: 'Construction Year',
+                                    labelText: 'Construction Year',
+                                    keyBoardType: TextInputType.numberWithOptions(signed: false, decimal: false),
+                                    textInputFormatter: [
+                                      WhitelistingTextInputFormatter(RegExp(r"^\d?\.?\d{0,3}")),
+                                    ],
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 20,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                    items: constructionYearList,
+                                    setter: (value) {
+                                      constructionYear = value;
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  DropDownField(
+                                    onValueChanged: (value) {
+                                      fuelType = value;
+                                      toggleEngineDisplacement(value);
+                                    },
+                                    textEditingController: fuelTypeController,
+                                    focusNode: fuelTypeFocusNode,
+                                    hintText: 'Fuel Type',
+                                    labelText: 'Fuel Type',
+                                    prefixIcon: Icon(
+                                      Icons.local_gas_station_outlined,
+                                      size: 20,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                    items: fuelTypeList,
+                                    setter: (value) {
+                                      fuelType = value;
+                                      toggleEngineDisplacement(value);
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  Visibility(
+                                    visible: displayEngineDisplacement,
+                                    child: DropDownField(
+                                      onValueChanged: (value) {
+                                        engineDisplacement = value;
+                                      },
+                                      textEditingController: engineDisplacementController,
+                                      focusNode: engineDisplacementFocusNode,
+                                      hintText: 'Engine Displacement (cc)',
+                                      labelText: 'Engine Displacement (cc)',
+                                      prefixIcon: Icon(
+                                        Icons.directions_car,
+                                        size: 20,
+                                        color: Colors.grey.shade700,
+                                      ),
+                                      keyBoardType: TextInputType.number,
+                                      items: engineDisplacementList,
+                                      setter: (value) {
+                                        engineDisplacement = value;
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                              textEditingController: manufacturerController,
-                              focusNode: manufacturerFocusNode,
-                              items: items,
-                              setter: (value) {
-                                setState(() {
-                                  selectedValue = value;
-                                });
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            DropDownField(
-                              onValueChanged: (value) {
-                                print(value);
-                              },
-                              textEditingController: modelController,
-                              focusNode: modelFocusNode,
-                              hintText: 'Model',
-                              labelText: 'Model',
-                              prefixIcon: Icon(
-                                Icons.directions_car,
-                                size: 20,
-                                color: Colors.grey.shade700,
-                              ),
-                              items: items,
-                              setter: (value) {
-                                print(value);
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            DropDownField(
-                              onValueChanged: (value) {
-                                print(value);
-                              },
-                              textEditingController: constructionYearController,
-                              focusNode: constructionYearFocusNode,
-                              hintText: 'Construction Year',
-                              labelText: 'Construction Year',
-                              keyBoardType: TextInputType.numberWithOptions(signed: false, decimal: false),
-                              prefixIcon: Icon(
-                                Icons.calendar_today,
-                                size: 20,
-                                color: Colors.grey.shade700,
-                              ),
-                              items: items,
-                              setter: (value) {
-                                print(value);
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            DropDownField(
-                              onValueChanged: (value) {
-                                print(value);
-                              },
-                              textEditingController: fuelTypeController,
-                              focusNode: fuelTypeFocusNode,
-                              hintText: 'Fuel Type',
-                              labelText: 'Fuel Type',
-                              prefixIcon: Icon(
-                                Icons.local_gas_station_outlined,
-                                size: 20,
-                                color: Colors.grey.shade700,
-                              ),
-                              items: items,
-                              setter: (value) {
-                                print(value);
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            DropDownField(
-                              onValueChanged: (value) {
-                                print(value);
-                              },
-                              textEditingController: engineDisplacementController,
-                              focusNode: engineDisplacementFocusNode,
-                              hintText: 'Engine Displacement (cc)',
-                              labelText: 'Engine Displacement (cc)',
-                              prefixIcon: Icon(
-                                Icons.directions_car,
-                                size: 20,
-                                color: Colors.grey.shade700,
-                              ),
-                              items: items,
-                              setter: (value) {
-                                print(value);
-                              },
                             ),
                           ],
                         ),
@@ -223,5 +362,12 @@ class _CarSelectionScreenState extends State<CarSelectionScreen> {
         ),
       ),
     );
+  }
+
+  void addCarDetails() {
+    if (_key.currentState.validate()) {
+      // TODO: save the data
+
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:envirocar/theme/colors_cario.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:overlay_container/overlay_container.dart';
 
 class DropDownField extends FormField<String> {
@@ -13,6 +14,7 @@ class DropDownField extends FormField<String> {
   final bool required;
   final Icon prefixIcon;
   final TextInputType keyBoardType;
+  final List<TextInputFormatter> textInputFormatter;
   final List<dynamic> items;
   final FormFieldSetter<dynamic> setter;
   final ValueChanged<dynamic> onValueChanged;
@@ -30,7 +32,7 @@ class DropDownField extends FormField<String> {
       ),
       this.labelText,
       this.labelStyle: const TextStyle(
-        color: const Color(0xFF0065A0),
+        color: const Color(0xFF455A64),
         fontWeight: FontWeight.w400,
       ),
       this.textStyle: const TextStyle(
@@ -40,6 +42,7 @@ class DropDownField extends FormField<String> {
       this.required: false,
       this.prefixIcon,
       this.keyBoardType : TextInputType.text,
+      this.textInputFormatter,
       this.items,
       this.setter,
       this.onValueChanged,
@@ -52,9 +55,9 @@ class DropDownField extends FormField<String> {
           final DropDownFieldState state = formFieldState;
           final ScrollController scrollController = ScrollController();
           bool showHintText = false;
-          final labelStyleWithoutFocus = TextStyle(
-            color: Colors.grey.shade700,
-            fontWeight: FontWeight.w400,
+          final labelStyleWithFocus = TextStyle(
+            color: Color(0xFF0065A0),
+            fontWeight: FontWeight.normal,
             fontSize: 15
           );
           focusNode.addListener(() {
@@ -70,7 +73,7 @@ class DropDownField extends FormField<String> {
             ),
             hintText: showHintText ? hintText : '',
             hintStyle: hintStyle,
-            labelText: showHintText ? labelStyleWithoutFocus : labelText,
+            labelText: labelText,
             labelStyle: labelStyle,
             focusColor: CarioColors.blueLightCario,
             enabledBorder: OutlineInputBorder(
@@ -125,28 +128,28 @@ class DropDownField extends FormField<String> {
                         return 'This field is required.';
                       return null;
                     },
+                    inputFormatters: textInputFormatter ?? null,
                     onSaved: setter,
                     enabled: true,
                   ),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(formFieldState.context).size.width - 40,
-                child: OverlayContainer(
-                  show: state._showDropDown,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    color: Colors.white,
-                    alignment: Alignment.topCenter,
-                    width: MediaQuery.of(formFieldState.context).size.width,
-                    height: state._getChildren(items).length * 48.0,
+              OverlayContainer(
+                show: state._showDropDown,
+                asWideAsParent: true,
+                position: OverlayContainerPosition(0, 28),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  alignment: Alignment.topCenter,
+                  width: MediaQuery.of(state.context).size.width,
+                  child: Scrollbar(
                     child: ListView(
+                      shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       controller: scrollController,
-                      padding: EdgeInsets.only(left: 40),
                       children: items.isNotEmpty
                           ? ListTile.divideTiles(
-                          context: formFieldState.context,
+                          context: state.context,
                           tiles: state._getChildren(state._items)).toList()
                           : List(),
                     ),
@@ -249,6 +252,7 @@ class DropDownFieldState extends FormFieldState<String> {
 
   ListTile _getListTile(String text) {
     return ListTile(
+      tileColor: CarioColors.whiteCario,
       dense: true,
       title: Text(
         text,
