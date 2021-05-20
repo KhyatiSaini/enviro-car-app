@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
 
 class SignIn extends StatelessWidget {
   static String routeName = '/sign_in';
@@ -290,7 +289,7 @@ class _SignInPageState extends State<SignInPage> {
                                 if (_key.currentState.validate()) {
                                   // print('Username $_userName');
                                   // print('Token $_password');
-                                  login();
+                                  login(context);
                                 }
                               },
                               child: Text('Login',
@@ -344,7 +343,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Future login() async {
+  Future login(BuildContext context) async {
     try {
       final Uri getUrl = Uri.parse(baseUrl + "users/" + _userName);
       print(getUrl);
@@ -362,11 +361,15 @@ class _SignInPageState extends State<SignInPage> {
       if (response.statusCode == 403) {
         Map res = jsonDecode(response.body);
         print(res["message"]);
-        Toast.show(
-          res["message"],
-          context,
-          duration: Toast.LENGTH_SHORT,
-          gravity: Toast.BOTTOM,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(res["message"]),
+            duration: Duration(seconds: 2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       }
 

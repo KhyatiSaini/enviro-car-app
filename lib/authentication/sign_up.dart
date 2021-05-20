@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:toast/toast.dart';
 
 class SignUp extends StatelessWidget {
   static String routeName = '/sign_up';
@@ -586,7 +585,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   print('Username $_userName');
                                   print('Email $_email');
                                   print('Token $_password');
-                                  register();
+                                  register(context);
                                 }
                               },
                               child: Text('Submit',
@@ -641,7 +640,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Future register() async {
+  Future register(BuildContext context) async {
     try {
       final Uri postUrl = Uri.parse(baseUrl + "users");
       print(postUrl);
@@ -663,20 +662,28 @@ class _SignUpPageState extends State<SignUpPage> {
       print(response.body);
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        Toast.show(
-            "Please verify your mail! A verification link has been sent to your email",
-            context,
-            duration: Toast.LENGTH_SHORT,
-            gravity: Toast.BOTTOM,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please verify your mail! A verification link has been sent to your email'),
+            duration: Duration(seconds: 2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       }
 
       if (response.statusCode == 409) {
-        Toast.show(
-          "Sign up unsuccessful! Username already exists",
-          context,
-          duration: Toast.LENGTH_SHORT,
-          gravity: Toast.BOTTOM,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sign up unsuccessful! Username already exists'),
+            duration: Duration(seconds: 2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       }
 

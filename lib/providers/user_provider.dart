@@ -4,7 +4,6 @@ import 'package:envirocar/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class UserProvider extends ChangeNotifier {
   User user;
@@ -57,11 +56,15 @@ class UserProvider extends ChangeNotifier {
     String username = sharedPreferences.getString('X-User');
     sharedPreferences.remove('X-User');
     sharedPreferences.remove('X-token');
-    Toast.show(
-      'Goodbye $username',
-      context,
-      duration: Toast.LENGTH_SHORT,
-      gravity: Toast.BOTTOM
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Goodbye $username'),
+        duration: Duration(seconds: 2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
     );
     AuthenticationStatusProvider().authenticationStatus();
   }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:provider/provider.dart';
 import 'package:system_setting/system_setting.dart';
-import 'package:toast/toast.dart';
 
 class AdapterSelectionScreen extends StatefulWidget {
   static String routeName = '/adapter_selection_screen';
@@ -221,12 +220,15 @@ class _AdapterSelectionScreenState extends State<AdapterSelectionScreen> {
                                     ),
                                   ),
                                   onTap: () {
-                                    Toast.show(
-                                      "Bluetooth discovery started.",
-                                      context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.BOTTOM,
-                                      backgroundRadius: 4,
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Bluetooth discovery started.'),
+                                        duration: Duration(seconds: 2),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
                                     );
                                     setState(() {
                                       reload = true;
