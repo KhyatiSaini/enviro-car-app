@@ -32,6 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
   }
 
+  /// function to set [userName] if user is logged in
   Future setUserName() async {
     if (mounted) {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

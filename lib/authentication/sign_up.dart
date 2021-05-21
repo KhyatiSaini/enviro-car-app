@@ -3,6 +3,7 @@ import 'package:checkbox_formfield/checkbox_formfield.dart';
 import 'package:envirocar/authentication/sign_in.dart';
 import 'package:envirocar/theme/colors_cario.dart';
 import 'package:envirocar/utilities/constants.dart';
+import 'package:envirocar/utilities/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  /// function for email validation
   bool emailValidator(String mail) {
     String p =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -56,12 +58,14 @@ class _SignUpPageState extends State<SignUpPage> {
     return regExp.hasMatch(mail);
   }
 
+  /// function for password validation
   bool passwordValidator(String pass) {
     String p = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])';
     RegExp regExp = new RegExp(p);
     return regExp.hasMatch(pass);
   }
 
+  /// disposing controllers to avoid memory leaks
   @override
   void dispose() {
     userNameController.dispose();
@@ -640,6 +644,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  /// function to register the user
   Future register(BuildContext context) async {
     try {
       final Uri postUrl = Uri.parse(baseUrl + "users");
@@ -662,29 +667,11 @@ class _SignUpPageState extends State<SignUpPage> {
       print(response.body);
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Please verify your mail! A verification link has been sent to your email'),
-            duration: Duration(seconds: 2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        showSnackBar(context, 'Please verify your mail! A verification link has been sent to your email');
       }
 
       if (response.statusCode == 409) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Sign up unsuccessful! Username already exists'),
-            duration: Duration(seconds: 2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        showSnackBar(context, 'Sign up unsuccessful! Username already exists');
       }
 
     } catch (e) {

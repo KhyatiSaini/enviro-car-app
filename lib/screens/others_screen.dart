@@ -9,8 +9,6 @@ class OthersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -18,93 +16,104 @@ class OthersScreen extends StatelessWidget {
         centerTitle: true,
         title: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                SizedBox(height: 5),
-                ListTile(
-                  title: Text(
-                    'Log Book',
-                    style: TextStyle(
+      body: OthersScreenPage(),
+    );
+  }
+}
+
+class OthersScreenPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<UserProvider>(context);
+
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(height: 5),
+              ListTile(
+                title: Text(
+                  'Log Book',
+                  style: TextStyle(
                       color: Colors.black54,
                       fontSize: 18
-                    ),
                   ),
-                  leading: Icon(
-                    Icons.my_library_books,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  dense: true,
                 ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                    'Settings',
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  dense: true,
+                leading: Icon(
+                  Icons.my_library_books,
+                  color: Colors.black,
+                  size: 30,
                 ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                    'Help',
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18
-                    ),
+                dense: true,
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Settings',
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18
                   ),
-                  leading: Icon(
-                    Icons.help_outline_outlined,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  dense: true,
                 ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                    'Report Issue',
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.bug_report_rounded,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  dense: true,
+                leading: Icon(
+                  Icons.settings,
+                  color: Colors.black,
+                  size: 30,
                 ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                    'Rate Us',
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18
-                    ),
+                dense: true,
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Help',
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18
                   ),
-                  leading: Icon(
-                    Icons.star,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  dense: true,
                 ),
-                Divider(),
-                if (provider.userLoggedIn)
+                leading: Icon(
+                  Icons.help_outline_outlined,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                dense: true,
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Report Issue',
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18
+                  ),
+                ),
+                leading: Icon(
+                  Icons.bug_report_rounded,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                dense: true,
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Rate Us',
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18
+                  ),
+                ),
+                leading: Icon(
+                  Icons.star,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                dense: true,
+              ),
+              Divider(),
+              if (provider.userLoggedIn)
                 ListTile(
                   onTap: () {
                     showDialog(
@@ -130,7 +139,7 @@ class OthersScreen extends StatelessWidget {
                                 child: Text(
                                   'yes'.toUpperCase(),
                                   style: TextStyle(
-                                    color: Colors.black54
+                                      color: Colors.black54
                                   ),
                                 ),
                                 onPressed: () {
@@ -157,26 +166,25 @@ class OthersScreen extends StatelessWidget {
                   ),
                   dense: true,
                 ),
-                if (provider.userLoggedIn)
+              if (provider.userLoggedIn)
                 Divider(),
-                ListTile(
-                  title: Text(
-                    'Close enviroCar',
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18
-                    ),
+              ListTile(
+                title: Text(
+                  'Close enviroCar',
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18
                   ),
-                  leading: Icon(
-                    Icons.power_settings_new,
-                    color: CarioColors.carioWarningRed,
-                    size: 30,
-                  ),
-                  dense: true,
                 ),
-                Divider(),
-              ],
-            ),
+                leading: Icon(
+                  Icons.power_settings_new,
+                  color: CarioColors.carioWarningRed,
+                  size: 30,
+                ),
+                dense: true,
+              ),
+              Divider(),
+            ],
           ),
         ),
       ),

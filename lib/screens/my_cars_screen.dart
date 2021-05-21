@@ -13,26 +13,33 @@ class MyCarsScreen extends StatelessWidget {
         centerTitle: true,
         title: Image.asset('assets/images/envirocar_logo_white.png', width: 100),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(left: 20, top: 20),
-            child: Text(
-              'My Cars',
-              style: TextStyle(
-                color: CarioColors.carioColorPrimary,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      ),
+      body: MyCarsScreenPage(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: CarioColors.carioColorPrimaryDark,
         onPressed: () {
           Navigator.pushNamed(context, CarSelectionScreen.routeName);
         },
+      ),
+    );
+  }
+}
+
+class MyCarsScreenPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 20, top: 20),
+          child: Text(
+            'My Cars',
+            style: TextStyle(
+              color: CarioColors.carioColorPrimary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
       ),
     );
   }

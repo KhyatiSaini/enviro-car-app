@@ -10,6 +10,7 @@ class BluetoothStatusProvider extends ChangeNotifier {
     updateBluetoothStatus();
   }
 
+  /// function to update bluetooth status upon listening status updates
   void updateBluetoothStatus() {
     BluetoothStatusChecker().onStatusChange.listen((status) {
       bluetoothStatus = status;
@@ -17,6 +18,7 @@ class BluetoothStatusProvider extends ChangeNotifier {
     });
   }
 
+  /// function to get [bluetoothState]
   BluetoothConnectionStatus get bluetoothState => bluetoothStatus;
 
 }

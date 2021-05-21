@@ -1,6 +1,7 @@
 import 'package:envirocar/models/users.dart';
 import 'package:envirocar/providers/authentication_status_provider.dart';
 import 'package:envirocar/screens/home_screen.dart';
+import 'package:envirocar/utilities/snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +16,7 @@ class UserProvider extends ChangeNotifier {
     updateAuthenticationStatus();
   }
 
+  /// function to update authentication status upon listening stream updates
   void updateAuthenticationStatus() {
     AuthenticationStatusProvider().onStatusChange.listen((username) {
       if (username.isNotEmpty && username != '')
@@ -25,6 +27,7 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
+  /// function to assign data to [User]
   Future assignUser(
       String name,
       String mail,
@@ -42,6 +45,7 @@ class UserProvider extends ChangeNotifier {
     );
   }
 
+  /// function to sign-in the user and update the authentication status
   Future signIn(String username, String password, BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString('X-User', username);
@@ -51,24 +55,17 @@ class UserProvider extends ChangeNotifier {
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 
+  /// function to logout and update the authentication status
   Future logout(BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String username = sharedPreferences.getString('X-User');
     sharedPreferences.remove('X-User');
     sharedPreferences.remove('X-token');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Goodbye $username'),
-        duration: Duration(seconds: 2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    showSnackBar(context, 'Goodbye $username');
     AuthenticationStatusProvider().authenticationStatus();
   }
 
+  /// function to get [username]
   Future<String> get getUserName async {
     if (userLoggedIn) {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -77,5 +74,6 @@ class UserProvider extends ChangeNotifier {
     return username;
   }
 
+  /// function to check whether user is logged in
   bool get userLoggedIn => isSignedIn;
 }

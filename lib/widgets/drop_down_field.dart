@@ -91,7 +91,7 @@ class DropDownField extends FormField<String> {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(color: CarioColors.blueDarkCario, width: 2),
+              borderSide: BorderSide(color: Colors.grey.shade700),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
@@ -103,7 +103,7 @@ class DropDownField extends FormField<String> {
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(color: CarioColors.blueDarkCario),
+              borderSide: BorderSide(color: CarioColors.blueDarkCario, width: 2),
             ),
           );
           return Column(
@@ -207,12 +207,14 @@ class DropDownFieldState extends FormFieldState<String> {
     super.didUpdateWidget(oldWidget);
   }
 
+  /// function to reset the value of controller
   void clearValue() {
     setState(() {
       _effectiveController.text = '';
     });
   }
 
+  /// function to show and hide drop down list
   void toggleDropDownVisibility() {
     setState(() {
       _showDropDown = !_showDropDown;
@@ -233,6 +235,7 @@ class DropDownFieldState extends FormFieldState<String> {
     super.reset();
   }
 
+  /// function to get filtered list of car attributes
   List<ListTile> _getChildren(List<String> items) {
     List<ListTile> childItems = List();
     for(var item in _items) {
@@ -250,6 +253,7 @@ class DropDownFieldState extends FormFieldState<String> {
     return childItems;
   }
 
+  /// function to return [ListTile] of List Item
   ListTile _getListTile(String text) {
     return ListTile(
       tileColor: CarioColors.whiteCario,
@@ -290,36 +294,3 @@ class DropDownFieldState extends FormFieldState<String> {
     }
   }
 }
-
-/*
-* RenderBox renderBox = context.findRenderObject();
-    var size = renderBox.size;
-    var offset = renderBox.globalToLocal(Offset.zero);
-
-    List<ListTile> childItems = List();
-    for(var item in _items) {
-      if (_searchText.isNotEmpty) {
-        if (item.toLowerCase().contains(_searchText.trim().toLowerCase())) {
-          childItems.add(_getListTile(item));
-        }
-      }
-      else {
-        childItems.add(_getListTile(item));
-      }
-    }
-    _isSearching ? childItems : List();
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        left: offset.dx,
-        top: offset.dy + size.height + 5,
-        width: size.width,
-        child: Material(
-          elevation: 4.0,
-          child: ListView(
-            shrinkWrap: true,
-            children: childItems,
-          ),
-        ),
-      ),
-    );
- */

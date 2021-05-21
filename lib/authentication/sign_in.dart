@@ -3,6 +3,7 @@ import 'package:envirocar/authentication/sign_up.dart';
 import 'package:envirocar/providers/user_provider.dart';
 import 'package:envirocar/theme/colors_cario.dart';
 import 'package:envirocar/utilities/constants.dart';
+import 'package:envirocar/utilities/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -40,6 +41,7 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
+  /// disposing off controllers to avoid memory leaks
   @override
   void dispose() {
     userNameController.dispose();
@@ -361,16 +363,7 @@ class _SignInPageState extends State<SignInPage> {
       if (response.statusCode == 403) {
         Map res = jsonDecode(response.body);
         print(res["message"]);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(res["message"]),
-            duration: Duration(seconds: 2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        showSnackBar(context, res["message"]);
       }
 
       if (response.statusCode == 201 || response.statusCode == 200) {

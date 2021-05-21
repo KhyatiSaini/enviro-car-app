@@ -8,7 +8,7 @@ enum GpsStatus {
 
 class GpsStatusChecker {
 
-  static const Duration DEFAULT_INTERVAL = Duration(seconds: 5);
+  static const Duration DEFAULT_INTERVAL = Duration(seconds: 2);
 
   factory GpsStatusChecker() => _gpsStatusChecker;
   GpsStatusChecker._() {
@@ -24,6 +24,7 @@ class GpsStatusChecker {
 
   static final GpsStatusChecker _gpsStatusChecker = GpsStatusChecker._();
 
+  /// function to get location status
   Future<GpsStatus> get locationIsEnabled async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     return serviceEnabled ? GpsStatus.enabled : GpsStatus.disabled;
@@ -31,6 +32,7 @@ class GpsStatusChecker {
 
   Duration checkInterval = DEFAULT_INTERVAL;
 
+  /// function to send gps status updates
   _sendStatusUpdates([Timer timer]) async {
     _timer?.cancel();
     timer?.cancel();
@@ -57,8 +59,10 @@ class GpsStatusChecker {
   // ignore: close_sinks
   StreamController<GpsStatus> _statusController = StreamController.broadcast();
 
+  /// function to return stream of gps status
   Stream<GpsStatus> get onStatusChange => _statusController.stream;
 
+  /// function to check whether the gps status has listeners
   bool get hasListener => _statusController.hasListener;
 
 }

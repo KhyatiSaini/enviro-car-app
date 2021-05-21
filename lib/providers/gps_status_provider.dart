@@ -10,6 +10,7 @@ class GpsStatusProvider extends ChangeNotifier {
     updateGpsStatus();
   }
 
+  /// function to update gps stream updates upon listening status updates
   void updateGpsStatus() {
     GpsStatusChecker().onStatusChange.listen((status) {
       gpsStatus = status;
@@ -17,6 +18,7 @@ class GpsStatusProvider extends ChangeNotifier {
     });
   }
 
+  /// function to get current [gpsState]
   GpsStatus get gpsState => gpsStatus;
 
 }

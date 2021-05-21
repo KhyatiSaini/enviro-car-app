@@ -8,7 +8,7 @@ enum BluetoothConnectionStatus {
 
 class BluetoothStatusChecker {
 
-  static const Duration DEFAULT_INTERVAL = Duration(seconds: 5);
+  static const Duration DEFAULT_INTERVAL = Duration(seconds: 2);
 
   factory BluetoothStatusChecker() => _bluetoothStatusChecker;
   BluetoothStatusChecker._() {
@@ -24,6 +24,7 @@ class BluetoothStatusChecker {
 
   static final BluetoothStatusChecker _bluetoothStatusChecker = BluetoothStatusChecker._();
 
+  /// function to get bluetooth connection status
   Future<BluetoothConnectionStatus> get connectionStatus async {
     FlutterBlue flutterBlue = FlutterBlue.instance;
     bool hasConnection = await flutterBlue.isOn;
@@ -32,6 +33,7 @@ class BluetoothStatusChecker {
 
   Duration checkInterval = DEFAULT_INTERVAL;
 
+  /// function to send bluetooth status updates
   _sendStatusUpdates([Timer timer]) async {
     _timer?.cancel();
     timer?.cancel();
@@ -58,7 +60,9 @@ class BluetoothStatusChecker {
   // ignore: close_sinks
   StreamController<BluetoothConnectionStatus> _statusController = StreamController.broadcast();
 
+  /// function to return stream of bluetooth connection status
   Stream<BluetoothConnectionStatus> get onStatusChange => _statusController.stream;
 
+  /// function to check whether the bluetooth connection status stream has listeners
   bool get hasListeners => _statusController.hasListener;
 }

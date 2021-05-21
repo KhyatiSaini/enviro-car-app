@@ -65,13 +65,14 @@ class _TrackUploadScreenState extends State<TrackUploadScreen> with SingleTicker
                         Tab(text: 'Local'),
                         Tab(text: 'Uploaded'),
                       ],
+                      controller: _tabController,
                       onTap: (index) {
                         _selectedIndex = index;
                         _tabController.index = index;
                       },
                       indicator: BoxDecoration(
                         color: CarioColors.carioColorPrimary,
-                        borderRadius: BorderRadius.circular(6)
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       indicatorSize: TabBarIndicatorSize.tab,
                       labelStyle: TextStyle(color: CarioColors.whiteCario),
